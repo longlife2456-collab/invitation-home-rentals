@@ -170,8 +170,7 @@ Add or remove fields in `index.html` within the appropriate `<section class="for
 Replace the following in `index.html` and `styles.css`:
 - Company name: "Invitation Home Rentals"
 - Address: "7155 Old Katy Rd Ste N210, Houston, TX 77024"
-- Phone: "(832) 555-7890"
-- Email: "contact@invitationhomerentals.com"
+- Email: "invitationhomerentalss@gmail.com"
 - Tagline: "Unlocking more than doors — we unlock your future."
 
 ## Form Validation Rules
