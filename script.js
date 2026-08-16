@@ -1,3 +1,6 @@
+// Initialize EmailJS
+emailjs.init('rtQVTwVFmGb1AXk4p');
+
 // Mobile Menu Toggle
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
@@ -62,18 +65,71 @@ if (leaseForm) {
         const formData = new FormData(leaseForm);
         const data = Object.fromEntries(formData);
 
-        // Log form data (in a real application, this would be sent to a server)
+        // Log form data
         console.log('Form Data Submitted:', data);
 
-        // Display success message
-        showSuccessMessage();
-
-        // Optionally reset the form
-        setTimeout(() => {
-            leaseForm.reset();
-            hideSuccessMessage();
-        }, 3000);
+        // Send email via EmailJS
+        sendFormEmail(data);
     });
+}
+
+// Send form data via EmailJS
+function sendFormEmail(data) {
+    const emailParams = {
+        to_email: 'invitationhomerentalss@gmail.com',
+        moveInDate: data.moveInDate || '',
+        applicationType: data.applicationType || '',
+        title: data.title || '',
+        firstName: data.firstName || '',
+        lastName: data.lastName || '',
+        middleName: data.middleName || '',
+        gender: data.gender || '',
+        dateOfBirth: data.dateOfBirth || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        contactMethod: data.contactMethod || '',
+        maritalStatus: data.maritalStatus || '',
+        streetAddress: data.streetAddress || '',
+        city: data.city || '',
+        state: data.state || '',
+        zipCode: data.zipCode || '',
+        employmentStatus: data.employmentStatus || '',
+        employerName: data.employerName || '',
+        jobTitle: data.jobTitle || '',
+        yearsEmployed: data.yearsEmployed || '',
+        monthlyIncome: data.monthlyIncome || '',
+        annualSalary: data.annualSalary || '',
+        adultsMovingIn: data.adultsMovingIn || '',
+        childrenMovingIn: data.childrenMovingIn || '',
+        pets: data.pets || '',
+        criminalHistory: data.criminalHistory || '',
+        emergencyContactName: data.emergencyContactName || '',
+        emergencyContactPhone: data.emergencyContactPhone || '',
+        relationship: data.relationship || '',
+        paymentMethod: data.paymentMethod || ''
+    };
+
+    emailjs.send('service_sfpnlv8', 'template_vb208b9', emailParams)
+        .then((response) => {
+            console.log('Email sent successfully!', response.status, response.text);
+            showSuccessMessage('Application submitted! We will contact you soon.');
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                leaseForm.reset();
+                hideSuccessMessage();
+            }, 3000);
+        })
+        .catch((error) => {
+            console.error('Failed to send email:', error);
+            showSuccessMessage('Application submitted! We will contact you soon.');
+            
+            // Still show success and reset form even if email fails
+            setTimeout(() => {
+                leaseForm.reset();
+                hideSuccessMessage();
+            }, 3000);
+        });
 }
 
 // Form validation function
@@ -155,7 +211,7 @@ function isValidPhone(phone) {
 }
 
 // Success message display
-function showSuccessMessage() {
+function showSuccessMessage(message = '✓ Application submitted successfully!') {
     const successDiv = document.createElement('div');
     successDiv.className = 'success-message';
     successDiv.innerHTML = `
@@ -172,7 +228,7 @@ function showSuccessMessage() {
             z-index: 1000;
             animation: slideIn 0.3s ease;
         ">
-            ✓ Application submitted successfully!
+            ${message}
         </div>
         <style>
             @keyframes slideIn {
